@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { useAuditorium } from '@/store/auditoriumStore';
 import { useViewer } from '@/store/viewerStore';
-import { buildShareQuery, parseShareParams } from '@/lib/url/shareUrl';
+import { buildShareQuery, parseShareParams, viewerPath } from '@/lib/url/shareUrl';
 import { findBestSeats, getSeatFromLayout } from '@/lib/geometry';
 import { SeatMap } from '@/components/seat-map/SeatMap';
 import { MiniMap } from '@/components/ui/MiniMap';
@@ -51,7 +51,7 @@ function useUrlState() {
   useEffect(() => {
     if (!ready.current) return;
     const t = setTimeout(() => {
-      const url = `/viewer?${buildShareQuery(config, selected, fov)}`;
+      const url = `${viewerPath()}?${buildShareQuery(config, selected, fov)}`;
       window.history.replaceState(window.history.state, '', url);
     }, 400);
     return () => clearTimeout(t);

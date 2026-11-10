@@ -45,7 +45,10 @@ describe('share URLs', () => {
     expect(parsed.config.screens.imax.width).toBe(20);
     expect(parsed.seat).toEqual({ row: 7, seat: 7 });
     expect(parsed.fov).toBe(75);
-    expect(buildShareUrl('http://localhost:3000/', c, null)).toMatch(/^http:\/\/localhost:3000\/viewer\?rows=12/);
+    expect(buildShareUrl('http://localhost:3000/', c, null, undefined, '')).toMatch(/^http:\/\/localhost:3000\/viewer\/\?rows=12/);
+    expect(buildShareUrl('https://u.github.io', c, null, undefined, '/CineView3D')).toMatch(
+      /^https:\/\/u\.github\.io\/CineView3D\/viewer\/\?rows=12/,
+    );
   });
 
   it('parses the documented example URL', () => {

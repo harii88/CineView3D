@@ -120,6 +120,20 @@ export function buildShareQuery(
   return q.toString();
 }
 
-export function buildShareUrl(origin: string, config: AuditoriumConfig, seat: { row: number; seat: number } | null, fov?: number) {
-  return `${origin.replace(/\/$/, '')}/viewer?${buildShareQuery(config, seat, fov)}`;
+/** Deployment sub-path (e.g. "/CineView3D" on GitHub Pages); empty when served from the root. */
+export const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? '').replace(/\/$/, '');
+
+/** Path of the viewer route (trailing slash matches the static export's folder layout). */
+export function viewerPath(basePath = BASE_PATH) {
+  return `${basePath.replace(/\/$/, '')}/viewer/`;
+}
+
+export function buildShareUrl(
+  origin: string,
+  config: AuditoriumConfig,
+  seat: { row: number; seat: number } | null,
+  fov?: number,
+  basePath = BASE_PATH,
+) {
+  return `${origin.replace(/\/$/, '')}${viewerPath(basePath)}?${buildShareQuery(config, seat, fov)}`;
 }
